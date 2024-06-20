@@ -1,7 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # undi
 aplikasi undian berbasis web menggunakan laravel
 =======
+=======
+>>>>>>> b8ce29f7b4c1ca69cb07806a966018b05ea54a08
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -68,4 +71,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<<<<<<< HEAD
 >>>>>>> b8ce29f (first commit)
+=======
+>>>>>>> b8ce29f7b4c1ca69cb07806a966018b05ea54a08
