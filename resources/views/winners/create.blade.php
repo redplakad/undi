@@ -81,6 +81,26 @@
                                     </div>
                                     <div class="modal-body">
                                         <div id="result" style="font-size: 78px;"></div>
+
+                                        <div class="col-md-12">
+                                            <table class="table table-striped">
+                                                <tr>
+                                                    <td>Nama</td>
+                                                    <tad>:</tad>
+                                                    <td>{{ $voucher->nama }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>No Kupon</td>
+                                                    <tad>:</tad>
+                                                    <td>{{ $voucher->no_kupon }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alamat</td>
+                                                    <tad>:</tad>
+                                                    <td>{{ $voucher->no_kupon }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
