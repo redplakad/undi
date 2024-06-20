@@ -97,7 +97,7 @@
                                                 <tr>
                                                     <td>Alamat</td>
                                                     <tad>:</tad>
-                                                    <td>{{ $voucher->no_kupon }}</td>
+                                                    <td>{{ $voucher->kab_kota }}</td>
                                                 </tr>
                                             </table>
                                         </div>
