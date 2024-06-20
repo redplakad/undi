@@ -18,6 +18,15 @@
                     <x-nav-link :href="route('vouchers.index')" :active="request()->routeIs('vouchers.index')">
                         {{ __('Vouchers') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('prizes.index')" :active="request()->routeIs('prizes.index')">
+                        {{ __('Hadiah') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('regions.index')" :active="request()->routeIs('regions.index')">
+                        {{ __('Area') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('winners.index')" :active="request()->routeIs('winners.index')">
+                        {{ __('Pemenang') }}
+                    </x-nav-link>
                 </div>
             </div>
 

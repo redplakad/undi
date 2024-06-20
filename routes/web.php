@@ -3,6 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\PrizeController;
+use App\Http\Controllers\RegionController;
+use App\Http\Controllers\WinnerController;
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/vouchers/{voucher}', [VoucherController::class, 'destroy'])->name('vouchers.destroy');
     Route::get('/vouchers/import', [VoucherController::class, 'showImportForm'])->name('vouchers.import.form');
     Route::post('/vouchers/import', [VoucherController::class, 'import'])->name('vouchers.import');
+    Route::resource('prizes', PrizeController::class);
+    Route::resource('regions', RegionController::class);
+    Route::resource('winners', WinnerController::class);
 });
 
 require __DIR__.'/auth.php';
