@@ -39,7 +39,7 @@
                             <img src="/images/gift.png" alt="Data Undian" class="w-full h-auto" />
                         </figure>
                         <div class="flex justify-center mt-4">
-                            <button class="btn btn-primary py-2 px-4 rounded">DATA UNDIAN</button>
+                            <a href="{{ route('hadiah.index') }}" class="btn btn-primary py-2 px-4 rounded">DATA UNDIAN</a>
                         </div>
                     </div>
                     <!-- Column 3 -->

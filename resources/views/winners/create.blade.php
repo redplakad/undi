@@ -25,7 +25,7 @@
                             @csrf
                             
                             <div class="mb-4">
-                                <input type="hidden" name="voucher_id" id="voucher_id" class="form-control" value="{{ $voucher->id }}" required>
+                                <input type="hidden" name="voucher_id" id="voucher_id" class="form-control" value="{{ $peserta->id }}" required>
                             </div>
 
                             <div class="col-md-12 col-lg-12 col-sm-12 row">
@@ -33,7 +33,7 @@
                                     <label for="region_id" class="block text-gray-700">Wilayah</label>
                                     <select name="region_id" id="region_id" class="form-control select2" required>
                                         @foreach($regions as $region)
-                                            <option value="{{ $region->id }}">{{ $region->name }}</option>
+                                            <option value="{{ $region[1] }}">{{ $region[1] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -41,7 +41,7 @@
                                     <label for="prize_id" class="block text-gray-700">Hadiah</label>
                                     <select name="prize_id" id="prize_id" class="form-control select2" required>
                                         @foreach($prizes as $prize)
-                                            <option value="{{ $prize->id }}">{{ $prize->name }}</option>
+                                            <option value="{{ $prize->id }}">{{ $prize->nama_hadiah }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -87,24 +87,27 @@
                                                 <tr>
                                                     <td>Nama</td>
                                                     <tad>:</tad>
-                                                    <td>{{ $voucher->nama }}</td>
+                                                    <td>{{ $peserta->NAMA }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>No Kupon</td>
                                                     <tad>:</tad>
-                                                    <td>{{ $voucher->no_kupon }}</td>
+                                                    <td>{{ $peserta->NOREK }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Alamat</td>
                                                     <tad>:</tad>
-                                                    <td>{{ $voucher->kab_kota }}</td>
+                                                    <td>{{ $peserta->KOTA }}</td>
                                                 </tr>
                                             </table>
+
+                                            <br>
+                                            <img id="fotoContainer" src="" alt="Foto Hadiah" />
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
-                                        <button type="button" class="btn btn-xl btn-light" id="reset"><i class="fas fa-repeat"></i> Reset</button>
+                                        <a href="{{ route('winners.create') }}" class="btn btn-xl btn-light" id="reset"><i class="fas fa-repeat"></i> Reset</button>
                                     </div>
                                     </div>
                                 </div>
@@ -119,18 +122,51 @@
     @push('scripts')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script>
+            prize_id = 1;
             // Ambil elemen HTML yang akan dianimasikan
             const myNumber = document.getElementById('myNumber');
 
+            async function fetchFotoBySlug(slugId) {
+                console.log("fetch prize id:" + slugId)
+                try {
+                    // Mengambil foto berdasarkan slug ID
+                    const response = await fetch("{{ route('hadiah.index') }}s/" + slugId);
+
+                    // Memeriksa apakah permintaan berhasil
+                    if (!response.ok) {
+                        throw new Error('Hadiah tidak ditemukan');
+                    }
+
+                    // Mengambil data JSON dari respons
+                    const data = await response.json();
+
+                    // Memproses data yang diterima
+                    if (data.success) {
+                        console.log('Foto:', data.foto);
+                        // Anda dapat melakukan sesuatu dengan data.foto, misalnya menampilkan di UI
+                        document.getElementById('fotoContainer').src = data.foto; // Misalnya, menampilkan di elemen img
+                    } else {
+                        console.error(data.message);
+                    }
+                } catch (error) {
+                    console.error('Terjadi kesalahan:', error.message);
+                }
+            }
             // Buat instance NumberFlip
             $(document).ready(function(){
+                $('#prize_id').change(function() {
+                        // Mengambil nilai yang dipilih
+                        prize_id = $(this).val();
+                        
+                        // Anda dapat melakukan sesuatu dengan prizeId di sini
+                 });
                 $("#mulai").click(function(){
                     $('#myNumber').html("");
                     $('#mulai').prop('disabled', true);
                     new Flip({
                         node: myNumber,
                         from: 999999999,
-                        to: {{ $voucher->no_rek }},
+                        to: {{ $peserta->NOREK }},
                         delay: 1, // second
                         duration: 10,
                         easeFn: function(pos) {
@@ -178,8 +214,9 @@
                         });
                     }, 10000);
                     setTimeout(function() {
-                        $('#result').html({{ $voucher->no_rek }});
+                        $('#result').html({{ $peserta->no_rek }});
                         $('#myModal').modal('show');
+                        fetchFotoBySlug(2);
                     }, 11000);
                 });
                 $('.close').click(function(){
@@ -189,6 +226,8 @@
                 $("#reset").click(function(){
                     location.reload();
                 });
+
+                
             });
         </script>
     @endpush

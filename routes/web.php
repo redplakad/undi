@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('hadiah', HadiahController::class);
 
     Route::post('import-hadiah', [ImportController::class, 'import'])->name('import.hadiah');
+
+    Route::get('/hadiahs/{slug}', [WinnerController::class, 'getFotoBySlug']);
 });
 
 require __DIR__.'/auth.php';
