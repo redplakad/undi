@@ -44,10 +44,3 @@
         </div>
     @endsection
 </x-app-layout>
-
-<div id="imageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white p-4 rounded">
-        <span class="absolute top-0 right-0 p-2 cursor-pointer" onclick="closeModal()">&times;</span>
-        <img id="modalImage" src="" alt="" class="max-w-full h-auto" />
-    </div>
-</div>
