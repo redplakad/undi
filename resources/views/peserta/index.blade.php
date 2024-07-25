@@ -8,9 +8,6 @@
     @section('content')
         <div class="py-12 bg-[url('/images/bg.png')]">
             <div class="container mx-auto p-4 bg-white shadow-l rounded">
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
 
                 <div class="container mx-auto p-4">
                     @if (session('success'))

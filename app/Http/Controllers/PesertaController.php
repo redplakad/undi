@@ -36,7 +36,6 @@ class PesertaController extends Controller
             'KOTA' => 'required|string|max:255',
             'NO_IDENTITAS' => 'required|string|max:255',
             'JENIS_PRODUK' => 'required|string|max:255',
-            'STATUS' => 'required|string|max:255',
         ]);
 
         $peserta = Peserta::create($request->all());
@@ -63,7 +62,6 @@ class PesertaController extends Controller
             'KOTA' => 'required|string|max:255',
             'NO_IDENTITAS' => 'required|string|max:255',
             'JENIS_PRODUK' => 'required|string|max:255',
-            'STATUS' => 'required|string|max:255',
         ]);
 
         $peserta = Peserta::findOrFail($id);
