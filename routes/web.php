@@ -8,6 +8,7 @@ use App\Http\Controllers\RegionController;
 use App\Http\Controllers\WinnerController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PesertaImportController;
+use App\Http\Controllers\HadiahController;
 
 
 
@@ -48,6 +49,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/peserta/{id}/edit', [PesertaController::class, 'edit'])->name('peserta.edit');
     Route::put('/peserta/{id}', [PesertaController::class, 'update'])->name('peserta.update');
     Route::delete('/peserta/{id}', [PesertaController::class, 'destroy'])->name('peserta.destroy');
+
+    Route::resource('hadiah', HadiahController::class);
+
+    Route::post('import-hadiah', [ImportController::class, 'import'])->name('import.hadiah');
 });
 
 require __DIR__.'/auth.php';
