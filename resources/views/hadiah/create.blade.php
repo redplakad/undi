@@ -51,15 +51,3 @@
         <img id="modalImage" src="" alt="" class="max-w-full h-auto" />
     </div>
 </div>
-@push('scripts')
-<script>
-    function openModal(imageSrc) {
-        document.getElementById('modalImage').src = imageSrc;
-        document.getElementById('imageModal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-        document.getElementById('imageModal').classList.add('hidden');
-    }
-</script>
-@endpush

@@ -46,7 +46,7 @@
                                     <td>{{ $item->nama_hadiah }}</td>
                                     <td>{{ $item->stok_hadiah }}</td>
                                     <td>
-                                        <img src="{{ env('APP_URL') }}/{{ $item->foto }}" alt="{{ $item->nama_hadiah }}" class="w-12 h-12 cursor-pointer" onclick="openModal('{{ $item->foto }}')" />
+                                        <img src="{{ Storage::url($item->foto) }}" alt="{{ $item->nama_hadiah }}" class="w-12 h-12 cursor-pointer" onclick="openModal('{{ Storage::url($item->foto) }}')" />
                                     </td>
                                     <td>{{ $item->keterangan }}</td>
                                     <td>{{ $item->level }}</td>
@@ -73,3 +73,15 @@
         </div>
     @endsection
 </x-app-layout>
+@push('scripts')
+<script>
+    function openModal(imageSrc) {
+        document.getElementById('modalImage').src = imageSrc;
+        document.getElementById('imageModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').classList.add('hidden');
+    }
+</script>
+@endpush
