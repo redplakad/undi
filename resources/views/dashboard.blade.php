@@ -23,18 +23,18 @@
                         <br />
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-4">
+                <div class="row col-xs-12 col-sm-12 col-md-12 col-xl-12">
                     <!-- Column 1 -->
-                    <div class="flex flex-col justify-between bg-white shadow-xl rounded p-4">
+                    <div class="col-md-3 flex flex-col justify-between bg-white rounded p-4">
                         <figure class="flex-grow">
                             <img src="/images/people.png" alt="Daftar Peserta" class="w-full h-auto" />
                         </figure>
                         <div class="flex justify-center mt-4">
-                            <button class="btn btn-primary py-2 px-4 rounded">DAFTAR PESERTA</button>
+                            <a href="{{ route('peserta.index') }}" class="btn btn-primary py-2 px-4 rounded">DAFTAR PESERTA</a>
                         </div>
                     </div>
                     <!-- Column 2 -->
-                    <div class="flex flex-col justify-between bg-white shadow-xl rounded p-4">
+                    <div class="col-md-3 flex flex-col justify-between bg-white rounded p-4">
                         <figure class="flex-grow">
                             <img src="/images/gift.png" alt="Data Undian" class="w-full h-auto" />
                         </figure>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <!-- Column 3 -->
-                    <div class="flex flex-col justify-between bg-white shadow-xl rounded p-4">
+                    <div class="col-md-3 flex flex-col justify-between bg-white rounded p-4">
                         <figure class="flex-grow">
                             <img src="/images/map.png" alt="Data Wilayah" class="w-full h-auto" />
                         </figure>
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <!-- Column 4 -->
-                    <div class="flex flex-col justify-between bg-white shadow-xl rounded p-4">
+                    <div class="col-md-3 flex flex-col justify-between bg-white rounded p-4">
                         <figure class="flex-grow">
                             <img src="/images/start.png" alt="Jalankan Undian" class="w-full h-auto" />
                         </figure>
