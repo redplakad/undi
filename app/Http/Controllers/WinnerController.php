@@ -8,6 +8,7 @@ use App\Models\Hadiah;
 use App\Models\Peserta;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 
 class WinnerController extends Controller
@@ -98,7 +99,7 @@ class WinnerController extends Controller
             // Mengembalikan respons JSON dengan kolom foto
             return response()->json([
                 'success' => true,
-                'foto' => $hadiah->foto,
+                'foto' => Storage::url($hadiah->foto),
             ]);
         } else {
             // Mengembalikan respons JSON jika hadiah tidak ditemukan

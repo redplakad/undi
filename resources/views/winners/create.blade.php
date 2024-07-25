@@ -101,8 +101,10 @@
                                                 </tr>
                                             </table>
 
-                                            <br>
-                                            <img id="fotoContainer" src="" alt="Foto Hadiah" />
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <img id="fotoContainer" src="" alt="Foto Hadiah" style="max-width: 450px;max-height:350px;/>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
