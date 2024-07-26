@@ -49,10 +49,6 @@ class WinnerController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'voucher_id' => 'required',
-            'prize_id' => 'required',
-        ]);
         $insert = DB::table('winners')->insert([
             'voucher_id' => $request->input('voucher_id'),
             'region_id' => 1, // Gunakan ID yang benar

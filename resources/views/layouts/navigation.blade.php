@@ -15,14 +15,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('vouchers.index')" :active="request()->routeIs('vouchers.index')">
-                        {{ __('Vouchers') }}
+                    <x-nav-link :href="route('peserta.index')" :active="request()->routeIs('peserta.index')">
+                        {{ __('Peserta') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('prizes.index')" :active="request()->routeIs('prizes.index')">
+                    <x-nav-link :href="route('hadiah.index')" :active="request()->routeIs('hadiah.index')">
                         {{ __('Hadiah') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('regions.index')" :active="request()->routeIs('regions.index')">
-                        {{ __('Area') }}
                     </x-nav-link>
                     <x-nav-link :href="route('winners.index')" :active="request()->routeIs('winners.index')">
                         {{ __('Pemenang') }}
