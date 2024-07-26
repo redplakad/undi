@@ -187,7 +187,7 @@
                         },
                         error: function(xhr) {
                             console.error(xhr.responseText);
-                            alert('Terjadi kesalahan saat mengambil data.');
+                            //alert('Terjadi kesalahan saat mengambil data.');
                         }
                     });
 
