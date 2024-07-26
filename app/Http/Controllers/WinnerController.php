@@ -9,6 +9,7 @@ use App\Models\Peserta;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
+use DB;
 
 
 class WinnerController extends Controller
@@ -28,7 +29,7 @@ class WinnerController extends Controller
                 });
             })
             ->paginate(10);
-    
+
         return view('winners.index', compact('winners', 'search'));
     }
 
@@ -42,7 +43,7 @@ class WinnerController extends Controller
                         ->inRandomOrder()
                         ->first();
         $prizes = Hadiah::where('stok_hadiah', '>', 0)->get();
-        $regions = Peserta::distinct()->pluck('kota');;
+        $regions = Peserta::select('kota')->distinct()->get();
         return view('winners.create', compact('prizes', 'regions','peserta'));
     }
 
@@ -50,11 +51,30 @@ class WinnerController extends Controller
     {
         $request->validate([
             'voucher_id' => 'required',
-            'prize_id' => 'required|exists:prizes,id',
-            'region_id' => 'required|exists:regions,id',
+            'prize_id' => 'required',
+        ]);
+        $insert = DB::table('winners')->insert([
+            'voucher_id' => $request->input('voucher_id'),
+            'region_id' => 1, // Gunakan ID yang benar
+            'region' => $request->input('region'),
+            'prize_id' => $request->input('prize_id'),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        Winner::create($request->all());
+        $peserta = Peserta::where('NOREK', $request->input('voucher_id')); // Mencari peserta berdasarkan ID
+
+            if ($peserta) {
+                $peserta->status = 'win'; // Mengubah status
+                $peserta->save(); // Menyimpan perubahan
+            }
+
+        $hadiah = Hadiah::find($request->input('prize_id')); // Mencari hadiah berdasarkan ID
+
+            if ($hadiah) {
+                $hadiah->stok = -1; // Mengubah stok menjadi -1
+                $hadiah->save(); // Menyimpan perubahan
+            }
 
         return redirect()->route('winners.index')->with('success', 'Winner created successfully.');
     }
@@ -108,5 +128,17 @@ class WinnerController extends Controller
                 'message' => 'Hadiah tidak ditemukan.',
             ], JsonResponse::HTTP_NOT_FOUND);
         }
+    }
+
+    public function getPesertaByKota($slug)
+    {
+        // Mengambil data dari tabel peserta dengan kondisi kota = $slug
+        $peserta = Peserta::where('kota', $slug)
+                            ->where('status', '=', Null)
+                            ->inRandomOrder()
+                            ->first();
+
+        // Mengembalikan data sebagai respons JSON
+        return response()->json($peserta);
     }
 }

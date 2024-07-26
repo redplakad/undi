@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::post('import-hadiah', [ImportController::class, 'import'])->name('import.hadiah');
 
     Route::get('/hadiahs/{slug}', [WinnerController::class, 'getFotoBySlug']);
+
+    Route::get('/peserta/kota/{slug}', [WinnerController::class, 'getPesertaByKota'])->name('peserta.byKota');
 });
 
 require __DIR__.'/auth.php';

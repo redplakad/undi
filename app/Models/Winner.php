@@ -13,6 +13,7 @@ class Winner extends Model
         'voucher_id',
         'prize_id',
         'region_id',
+        'region'
     ];
 
     public function voucher()

@@ -23,23 +23,26 @@
 
                         <form action="{{ route('winners.store') }}" method="POST">
                             @csrf
-                            
+
                             <div class="mb-4">
-                                <input type="hidden" name="voucher_id" id="voucher_id" class="form-control" value="{{ $peserta->id }}" required>
+                                <input type="hidden" name="voucher_id" id="voucher_id" class="form-control" value="1" required>
                             </div>
 
                             <div class="col-md-12 col-lg-12 col-sm-12 row">
-                                <div class="col-md-6"> 
+                                <div class="col-md-6">
                                     <label for="region_id" class="block text-gray-700">Wilayah</label>
-                                    <select name="region_id" id="region_id" class="form-control select2" required>
+                                    <input type="hidden" name="region_id" value=''>
+                                    <select name="region" id="region_id" class="form-control select2" required>
+                                            <option selected>Pilih Kota/Kab terlebih dahulu</option>
                                         @foreach($regions as $region)
-                                            <option value="{{ $region[1] }}">{{ $region[1] }}</option>
+                                            <option value="{{ $region->kota }}">{{ $region->kota }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="prize_id" class="block text-gray-700">Hadiah</label>
                                     <select name="prize_id" id="prize_id" class="form-control select2" required>
+                                            <option selected>Pilih Hadiah terlebih dahulu</option>
                                         @foreach($prizes as $prize)
                                             <option value="{{ $prize->id }}">{{ $prize->nama_hadiah }}</option>
                                         @endforeach
@@ -55,11 +58,11 @@
                             <center>
                                 <div id="myNumber" class="flip" style="font-size: 148px;"></div>
 
-                                
+
                                 <br/>
                                 <br/>
 
-                                <button type="button" class="btn btn-lg btn-primary" id="mulai"><i class="fas fa-play"></i> Mulai!</button>
+                                <button type="button" class="btn btn-lg btn-primary" id="mulai" disabled><i class="fas fa-play"></i> Mulai!</button>
                                 <button type="button" class="btn btn-lg btn-light" id="reset"><i class="fas fa-repeat"></i> Reset</button>
                                 <a href="{{ route('winners.index') }}" class="btn btn-lg btn-light"><i class="fas fa-arrow-left"></i> Kembali</a>
                             </center>
@@ -86,25 +89,31 @@
                                             <table class="table table-striped">
                                                 <tr>
                                                     <td>Nama</td>
-                                                    <tad>:</tad>
-                                                    <td>{{ $peserta->NAMA }}</td>
+                                                    <td>:</td>
+                                                    <td id="dNama"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>No Kupon</td>
-                                                    <tad>:</tad>
-                                                    <td>{{ $peserta->NOREK }}</td>
+                                                    <td>:</td>
+                                                    <td id="dNorek"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Alamat</td>
-                                                    <tad>:</tad>
-                                                    <td>{{ $peserta->KOTA }}</td>
+                                                    <td>:</td>
+                                                    <td id="dKota"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>No Identitas</td>
+                                                    <td>:</td>
+                                                    <td id="dIden"></td>
                                                 </tr>
                                             </table>
 
                                             <br/>
                                             <br/>
                                             <br/>
-                                            <img id="fotoContainer" src="" alt="Foto Hadiah" style="max-width: 450px;max-height:350px;/>
+                                            <img id="fotoContainer" src="" alt="Foto Hadiah" style="max-width: 450px;max-height:350px";/>
+                                            <br/>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -129,7 +138,6 @@
             const myNumber = document.getElementById('myNumber');
 
             async function fetchFotoBySlug(slugId) {
-                console.log("fetch prize id:" + slugId)
                 try {
                     // Mengambil foto berdasarkan slug ID
                     const response = await fetch("{{ route('hadiah.index') }}s/" + slugId);
@@ -144,7 +152,7 @@
 
                     // Memproses data yang diterima
                     if (data.success) {
-                        console.log('Foto:', data.foto);
+                        //console.log('Foto:', data.foto);
                         // Anda dapat melakukan sesuatu dengan data.foto, misalnya menampilkan di UI
                         document.getElementById('fotoContainer').src = data.foto; // Misalnya, menampilkan di elemen img
                     } else {
@@ -156,19 +164,57 @@
             }
             // Buat instance NumberFlip
             $(document).ready(function(){
+                var btn_1 = 0;
+                var btn_2 = 0;
+                $('#region_id').change(function(){
+                    btn_1 = 1;
+                    var slugKota = $(this).val();
+
+                // Mengirim permintaan AJAX
+                    $.ajax({
+                        url: '/peserta/kota/' + slugKota, // Encode slug untuk URL
+                        method: 'GET',
+                        success: function(data) {
+                            $('#voucher_id').val(data.id);
+                            $('#dNorek').text(data.NOREK);
+                            $('#dNama').text(data.NAMA);
+                            $('#dKota').text(data.KOTA);
+                            $('#dIden').text(data.NO_IDENTITAS);
+
+                            if (data.length > 0) {
+                                console.log(data);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error(xhr.responseText);
+                            alert('Terjadi kesalahan saat mengambil data.');
+                        }
+                    });
+
+                    if(btn_1 == 1 && btn_2 == 1){
+                        $("#mulai").prop('disabled', false);
+                    }
+                });
                 $('#prize_id').change(function() {
+                        btn_2 = 1;
                         // Mengambil nilai yang dipilih
                         prize_id = $(this).val();
-                        
+
                         // Anda dapat melakukan sesuatu dengan prizeId di sini
+
+                        if(btn_1 == 1 && btn_2 == 1){
+                            $("#mulai").prop('disabled', false);
+                        }
+
                  });
                 $("#mulai").click(function(){
+                    norek = $('#dNorek').text();
                     $('#myNumber').html("");
                     $('#mulai').prop('disabled', true);
                     new Flip({
                         node: myNumber,
                         from: 999999999,
-                        to: {{ $peserta->NOREK }},
+                        to: norek,
                         delay: 1, // second
                         duration: 10,
                         easeFn: function(pos) {
@@ -177,7 +223,7 @@
                         },
                     });
 
-                    
+
                     const jsConfetti = new JSConfetti();
 
                     setTimeout(function() {
@@ -185,7 +231,7 @@
                         jsConfetti.addConfetti({
                             emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸'],
                         });
-                    }, 8000); 
+                    }, 8000);
                     setTimeout(function() {
                         const jsConfetti = new JSConfetti();
                         jsConfetti.addConfetti({
@@ -216,9 +262,10 @@
                         });
                     }, 10000);
                     setTimeout(function() {
+                        let prize = $('#prize_id').val();
+                        fetchFotoBySlug(prize);
                         $('#result').html({{ $peserta->no_rek }});
                         $('#myModal').modal('show');
-                        fetchFotoBySlug(2);
                     }, 11000);
                 });
                 $('.close').click(function(){
@@ -229,7 +276,7 @@
                     location.reload();
                 });
 
-                
+
             });
         </script>
     @endpush
