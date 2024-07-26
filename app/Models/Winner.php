@@ -13,17 +13,16 @@ class Winner extends Model
         'voucher_id',
         'prize_id',
         'region_id',
-        'region'
     ];
 
     public function voucher()
     {
-        return $this->belongsTo(Voucher::class);
+        return $this->belongsTo(Peserta::class);
     }
 
     public function prize()
     {
-        return $this->belongsTo(Prize::class);
+        return $this->belongsTo(Hadiah::class);
     }
 
     public function region()

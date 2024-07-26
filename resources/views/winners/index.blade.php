@@ -24,8 +24,8 @@
                             <thead>
                                 <tr>
                                     <th>No Rekening</th>
+                                    <th>No Identitas</th>
                                     <th>Nama</th>
-                                    <th>No Kupon</th>
                                     <th>Hadiah</th>
                                     <th>Kota</th>
                                     <th>Action</th>
@@ -34,13 +34,13 @@
                             <tbody>
                                 @foreach($winners as $winner)
                                 <tr>
-                                    <td>{{ $winner->voucher->no_rek }}</td>
-                                    <td>{{ $winner->voucher->nama}}</td>
-                                    <td>{{ $winner->voucher->no_kupon}}</td>
-                                    <td>{{ $winner->prize->name }}</td>
-                                    <td>{{ $winner->region->name }}</td>
+                                    <td>{{ $winner->voucher->NOREK }}</td>
+                                    <td>{{ $winner->voucher->NO_IDENTITAS }}</td>
+                                    <td>{{ $winner->voucher->NAMA}}</td>
+                                    <td>{{ $winner->prize ? $winner->prize->nama_hadiah : 'Error: Hadiah tidak ditemukan' }}</td>
+                                    <td>{{ $winner->region_id }}</td>
                                     <td>
-                                        <a href="{{ route('winners.edit', $winner->id) }}" class="btn btn-sm btn-light"><i class="fas fa-pencil"></i></a>
+
                                         <form action="{{ route('winners.destroy', $winner->id) }}" method="POST" style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')

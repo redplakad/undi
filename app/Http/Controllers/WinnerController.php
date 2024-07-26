@@ -51,26 +51,25 @@ class WinnerController extends Controller
     {
         $insert = DB::table('winners')->insert([
             'voucher_id' => $request->input('voucher_id'),
-            'region_id' => 1, // Gunakan ID yang benar
-            'region' => $request->input('region'),
+            'region_id' => $request->input('region'),
             'prize_id' => $request->input('prize_id'),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        $peserta = Peserta::where('NOREK', $request->input('voucher_id')); // Mencari peserta berdasarkan ID
+        $peserta = Peserta::where('NOREK', $request->input('voucher_id'))->first(); // Mencari peserta berdasarkan NOREK
 
-            if ($peserta) {
-                $peserta->status = 'win'; // Mengubah status
-                $peserta->save(); // Menyimpan perubahan
-            }
+        if ($peserta) {
+            $peserta->status = 'win'; // Mengubah status
+            $peserta->save(); // Menyimpan perubahan
+        }
 
         $hadiah = Hadiah::find($request->input('prize_id')); // Mencari hadiah berdasarkan ID
 
-            if ($hadiah) {
-                $hadiah->stok = -1; // Mengubah stok menjadi -1
-                $hadiah->save(); // Menyimpan perubahan
-            }
+        if ($hadiah) {
+            $hadiah->stok_hadiah -= 1; // Mengurangi stok sebanyak 1
+            $hadiah->save(); // Menyimpan perubahan
+        }
 
         return redirect()->route('winners.index')->with('success', 'Winner created successfully.');
     }
@@ -100,11 +99,23 @@ class WinnerController extends Controller
 
     public function destroy(Winner $winner)
     {
+        // Ambil prize_id dari winner yang akan dihapus
+        $prizeId = $winner->prize_id;
+
+        // Hapus winner
         $winner->delete();
+
+        // Update tabel hadiah untuk mengembalikan stok
+        $hadiah = Hadiah::find($prizeId); // Mencari hadiah berdasarkan prize_id
+
+        if ($hadiah) {
+            // Misalkan kita ingin menambahkan kembali stok
+            $hadiah->stok_hadiah += 1; // Atau sesuai logika yang diinginkan
+            $hadiah->save(); // Menyimpan perubahan
+        }
 
         return redirect()->route('winners.index')->with('success', 'Winner deleted successfully.');
     }
-
     public function getFotoBySlug($slug)
     {
         // Mengambil hadiah berdasarkan slug yang diberikan

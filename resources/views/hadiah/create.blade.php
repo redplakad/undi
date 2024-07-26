@@ -34,7 +34,13 @@
                         </div>
                         <div class="mb-4">
                             <label for="level" class="form-label">Level</label>
-                            <input type="number" name="level" class="form-control" required>
+                            <select name="level" id="level">
+                                <option value="0" selected>Pilih Jenis Hadiah</option>
+                                <option value="1">Hadiah Utama</option>
+                                <option value="2">Hadiah Kedua</option>
+                                <option value="3">Hadiah Ketiga</option>
+                                <option value="4">Hadiah Hiburan</option>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                         <a href="{{ route('hadiah.index') }}" class="btn-sm btn-default">Kembali</a>
@@ -44,3 +50,4 @@
         </div>
     @endsection
 </x-app-layout>
+
