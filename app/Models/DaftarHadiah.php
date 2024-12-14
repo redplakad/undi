@@ -19,4 +19,8 @@ class DaftarHadiah extends Model
             'gambar_hadiah',
             'deskripsi_hadiah',
         ];
+
+        protected $casts = [
+            'deskripsi_hadiah' => 'array',
+        ];
 }

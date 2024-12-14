@@ -10,12 +10,15 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms\Components\TagsInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\ImageColumn;
+
+use App\Models\KuponKredit;
 
 class DaftarHadiahResource extends Resource
 {
@@ -45,6 +48,7 @@ class DaftarHadiahResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $wilayah = KuponKredit::distinct()->pluck('wilayah')->toArray();
         return $form
             ->schema([
                 Select::make('level_hadiah')
@@ -61,9 +65,9 @@ class DaftarHadiahResource extends Resource
                     ->numeric(),
                 FileUpload::make('gambar_hadiah')
                     ->image(),
-                Forms\Components\Textarea::make('deskripsi_hadiah')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                TagsInput::make('deskripsi_hadiah')
+                    ->suggestions($wilayah)
+                    ->placeholder('Tambahkan Wilayah')
             ]);
     }
 
