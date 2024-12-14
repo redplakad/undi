@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ExportKuponKreditJob;
+use App\Jobs\ExportKuponDepositoJob;
+use App\Jobs\ExportKuponTabunganJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,7 +18,7 @@ class ExportKuponController extends Controller
     public function exportKuponDeposito()
     {
         $userId = auth()->id(); // Assuming user is authenticated
-        ExportDepositoJob::dispatch($userId);
+        ExportKuponDepositoJob::dispatch($userId);
 
         session()->flash('message', 'Proses export kupon deposito telah dimulai. Anda akan diberitahu setelah selesai.');
 

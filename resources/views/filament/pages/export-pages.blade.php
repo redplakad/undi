@@ -1,11 +1,30 @@
+@php
+    use App\Models\PesertaKredit;
+    use App\Models\PesertaTabungan;
+    use App\Models\PesertaDeposito;
+    use App\Models\KuponKredit;
+    use App\Models\KuponTabungan;
+    use App\Models\KuponDeposito;
+
+    $totalPesertaKredit = number_format(PesertaKredit::count());
+    $totalPesertaTabungan = number_format(PesertaTabungan::count());
+    $totalPesertaDeposito = number_format(PesertaDeposito::count());
+    $totalKuponKredit = number_format(KuponKredit::count());
+    $totalKuponTabungan = number_format(KuponTabungan::count());
+    $totalKuponDeposito = number_format(KuponDeposito::count());
+@endphp
+
 <x-filament-panels::page>
-    @if(session('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    @if (session('message'))
+        <div class="alert alert-success bg-blue-500 text-white p-4 rounded-md shadow-md mb-4" style="color:rgb(29, 78, 216);background-color: rgb(239, 246, 255)">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M5 12l2 2 4-4M21 12l-2 2-4-4M17 12l-2 2-4-4"></path>
+                </svg>
+                <span>{{ session('message') }}</span>
+            </div>
         </div>
     @endif
-    
     <div class="bg-white space-y-4 p-4 border rounded-lg shadow-sm max-full">
     <table class="w-full table-auto border-collapse border border-gray-200">
             <thead>
@@ -20,8 +39,8 @@
                 {{-- Baris 1: Kupon Kredit --}}
                 <tr class="hover:bg-gray-50">
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">Kupon Kredit</td>
-                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $jumlahPesertaKredit ?? 0 }}</td>
-                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $jumlahKuponKredit ?? 0 }}</td>
+                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalPesertaKredit ?? 0 }}</td>
+                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalKuponKredit ?? 0 }}</td>
                     <td class="border border-gray-200 px-4 py-2">
                         <a href="{{ route('export-kupon-kredit') }}">
                             <button style="--c-400:var(--info-400);--c-500:var(--info-500);--c-600:var(--info-600);" 
@@ -37,8 +56,8 @@
                 {{-- Baris 2: Kupon Deposito --}}
                 <tr class="hover:bg-gray-50">
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">Kupon Deposito</td>
-                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $jumlahPesertaDeposito ?? 0 }}</td>
-                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $jumlahKuponDeposito ?? 0 }}</td>
+                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalPesertaDeposito ?? 0 }}</td>
+                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalKuponDeposito ?? 0 }}</td>
                     <td class="border border-gray-200 px-4 py-2">
                         <a href="{{ route('export-kupon-deposito') }}">
                             <button style="--c-400:var(--info-400);--c-500:var(--info-500);--c-600:var(--info-600);" 
@@ -54,8 +73,8 @@
                 {{-- Baris 3: Kupon Tabungan --}}
                 <tr class="hover:bg-gray-50">
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">Kupon Tabungan</td>
-                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $jumlahPesertaTabungan ?? 0 }}</td>
-                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $jumlahKuponTabungan ?? 0 }}</td>
+                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalPesertaTabungan ?? 0 }}</td>
+                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalKuponTabungan ?? 0 }}</td>
                     <td class="border border-gray-200 px-4 py-2">
                         <a href="{{ route('export-kupon-tabungan') }}">
                             <button style="--c-400:var(--info-400);--c-500:var(--info-500);--c-600:var(--info-600);" 
