@@ -115,7 +115,7 @@
                     <label for="id_wilayah" class="block text-gray-700 font-medium mb-2">Pilih Wilayah</label>
                     <select id="id_wilayah" name="id_hadiah" class="select select-bordered w-full max-w-x" disabled>
                         <option value="" disabled selected>-- Pilih wilayah --</option>
-                        <option value="khusus">Wilayah Khusus</option>
+                        <option value="1">Wilayah Khusus</option>
                         @foreach (DB::table('peserta_kredit')->distinct()->pluck('wilayah') as $wilayah)
                             <option value="{{ $wilayah }}">{{ $wilayah }}</option>
                         @endforeach
@@ -249,6 +249,8 @@
     <script src="{{ env('APP_URL') }}/js/confetti.js"></script>
     <script>
         function createPemenangKredit() {
+            url = '{{ env("APP_URL") }}/api/pemenang-kredit';
+
             // Ambil nilai dari elemen input hidden
             const data = {
                 id_peserta: $('#winner_id_peserta').val(),
@@ -269,7 +271,7 @@
         
             // Kirim data ke API menggunakan jQuery AJAX
             $.ajax({
-            url: '{{ env("APP_URL") }}/api/pemenang-kredit', // Ganti dengan endpoint API Anda
+            url: url, // Ganti dengan endpoint API Anda
             method: 'POST',
             data: data,
             success: function (response) {
@@ -325,11 +327,14 @@
             wilayah = null;
 
             // Fungsi untuk mengambil data dari API
-            async function fetchNomorRekening(wilayah) {
-                    randomNumbers = [];
+            async function fetchNomorRekening(wilayah, id_wilayah) {
+                url = `{{ env('APP_URL') }}/api/nomor-kupon-kredit/${wilayah}?id_wilayah=${id_wilayah}`;
+
+                console.log(url)
+                randomNumbers = [];
+
                 try {
-                    const response = await axios.get(
-                    `{{ env('APP_URL') }}/api/nomor-kupon-kredit/${wilayah}`); // Ganti URL sesuai dengan server Anda
+                    const response = await axios.get(url); // Ganti URL sesuai dengan server Anda
                     if (response.data.success) {
                         randomNumbers = response.data.data; // Simpan data API ke array
                         //console.log('Data berhasil diambil:', randomNumbers);
