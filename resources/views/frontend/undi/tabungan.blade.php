@@ -108,7 +108,7 @@
                                 
                 <div class="mb-4" id="daftarproduk">
                     <label for="id_produk" class="block text-gray-700 font-medium mb-2">Pilih Produk</label>
-                    <select id="id_produk" name="id_hadiah" class="select select-bordered w-full max-w-x">
+                    <select id="id_produk" name="id_hadiah" class="select select-bordered w-full max-w-x" disabled>
                         <option value="" disabled selected>-- Pilih Produk --</option>
                         @foreach (DB::table('kupon_tabungan')->distinct()->pluck('produk') as $produk)
                             <option value="{{ $produk }}">{{ $produk }}</option>
@@ -339,7 +339,8 @@
             // Event listener untuk memantau perubahan pada elemen select
             $selectElement.on("change", function() {
                 hadiah_status = true;
-
+                $('#id_produk').prop('disabled', false);
+                
                 if ($(this).val() !== "" && hadiah_status && produk_status) {
                     // Jika nilai tidak kosong, hapus atribut disabled pada tombol
                     $startButton.prop("disabled", false);
@@ -352,9 +353,6 @@
             $("#id_produk").on("change", function(){
                 produk_status = true;
                 produk = $(this).val();
-
-                // Panggil fungsi untuk mengambil data
-                fetchNomorRekening($(this).val);
 
                 $("#info_produk").html(produk);
                 $("#win_produk").html(produk);

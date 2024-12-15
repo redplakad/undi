@@ -31,7 +31,7 @@ class DaftarHadiahResource extends Resource
         return 'Daftar Hadiah'; // Ganti dengan title navigasi yang diinginkan
     }
 
-    public function getTitle(): string | Htmlable
+    public function getTitle(): string
     {
         return __('Daftar Hadiah');
     }
@@ -67,6 +67,7 @@ class DaftarHadiahResource extends Resource
                     ->image(),
                 TagsInput::make('deskripsi_hadiah')
                     ->suggestions($wilayah)
+                    ->label('Wilayah')
                     ->placeholder('Tambahkan Wilayah')
             ]);
     }

@@ -1,3 +1,9 @@
+@php
+    use App\Models\DaftarHadiah;
+
+    // Mengambil data hadiah dengan level_hadiah = 'utama'
+    $hadiah = DaftarHadiah::where('level_hadiah', 'utama')->first();
+@endphp
 <!DOCTYPE html>
 <html lang="en" data-theme="cupcake">
 
@@ -107,8 +113,9 @@
                 </div>
                 <div class="mb-4" id="daftarwilayah">
                     <label for="id_wilayah" class="block text-gray-700 font-medium mb-2">Pilih Wilayah</label>
-                    <select id="id_wilayah" name="id_hadiah" class="select select-bordered w-full max-w-x">
+                    <select id="id_wilayah" name="id_hadiah" class="select select-bordered w-full max-w-x" disabled>
                         <option value="" disabled selected>-- Pilih wilayah --</option>
+                        <option value="khusus">Wilayah Khusus</option>
                         @foreach (DB::table('peserta_kredit')->distinct()->pluck('wilayah') as $wilayah)
                             <option value="{{ $wilayah }}">{{ $wilayah }}</option>
                         @endforeach
@@ -232,6 +239,7 @@
             </div>
         </div>
     </dialog>
+    <input type="hidden" id="id_hadiah_utama_undian" value="{{ $hadiah->id }}">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/number-flip/dist/number-flip.min.js"></script>
@@ -305,7 +313,10 @@
         let randomNumbers = [];
 
         $(document).ready(function() {
-
+            id_hadiah_utama = $('#id_hadiah_utama_undian').val();
+            console.log("ID Hadiah Utama:", id_hadiah_utama);
+            
+            id_hadiah = null;
             winner = null;
             start = false;
 
@@ -341,6 +352,8 @@
             // Event listener untuk memantau perubahan pada elemen select
             $selectElement.on("change", function() {
                 hadiah_status = true;
+                $('#id_wilayah').prop("disabled", false);
+                
                 if ($(this).val() !== "" && hadiah_status && wilayah_status) {
                     // Jika nilai tidak kosong, hapus atribut disabled pada tombol
                     $startButton.prop("disabled", false);
@@ -348,6 +361,7 @@
                     // Jika nilai kosong, tambahkan kembali atribut disabled
                     $startButton.prop("disabled", true);
                 }
+                id_hadiah = $(this).val();
             });
 
             $("#id_wilayah").on("change", function(){
@@ -356,11 +370,13 @@
 
                 $("#info_wilayah").html(wilayah);
                 // Panggil fungsi untuk mengambil data
-                fetchNomorRekening($(this).val());
 
                 if ($(this).val() !== "" && hadiah_status && wilayah_status) {
                     // Jika nilai tidak kosong, hapus atribut disabled pada tombol
                     $startButton.prop("disabled", false);
+
+                    
+                    fetchNomorRekening($(this).val(), id_hadiah);
                 } else {
                     // Jika nilai kosong, tambahkan kembali atribut disabled
                     $startButton.prop("disabled", true);
@@ -427,9 +443,9 @@
                 }, 6000); // Delay 1 detik
             }
 
-            function getWinner(winner) {
+            function getWinner(winner, id_hadiah) {
                 // Menggunakan Axios untuk request ke API
-                axios.get(`${window.location.origin}/api/kupon-kredit/${winner}`)
+                axios.get(`${window.location.origin}/api/kupon-kredit/${winner}?id_hadiah=${id_hadiah}`)
                     .then(function(response) {
                         // Menangani respons dari API
                         console.log('Data berhasil diambil:', response.data);

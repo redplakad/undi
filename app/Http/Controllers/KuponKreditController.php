@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DaftarHadiah;
 use App\Models\KuponKredit;
 use App\Models\PesertaKredit;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class KuponKreditController extends Controller
 {
@@ -13,11 +15,26 @@ class KuponKreditController extends Controller
      *
      * @return JsonResponse
      */
-    public function getNomorRekening($wilayah): JsonResponse
+    public function getNomorRekening($wilayah, Request $request): JsonResponse
     {
-        // Ambil semua nomor rekening dari model PesertaKredit
-        $nomorKupon = KuponKredit::where('status',0)->where('wilayah', $wilayah)->pluck('kode_kupon');
+        // Ambil hadiah berdasarkan ID wilayah dari input
+        $cek_hadiah = DaftarHadiah::where('id', $request->input('id_wilayah'))->first();
 
+        // Inisialisasi variabel nomorKupon
+        $nomorKupon = [];
+
+        if ($cek_hadiah && !empty($cek_hadiah->deskripsi_hadiah)) {
+            // Jika deskripsi_hadiah tidak kosong, lakukan query dengan filter wilayah
+            
+            $nomorKupon = KuponKredit::where('status', 0)
+                ->whereIn('wilayah', $cek_hadiah->deskripsi_hadiah)
+                ->pluck('kode_kupon');
+        } else {
+            // Jika hadiah tidak ditemukan atau deskripsi_hadiah kosong, gunakan wilayah default
+            $nomorKupon = KuponKredit::where('status', 0)
+                ->where('wilayah', $wilayah)
+                ->pluck('kode_kupon');
+        }
         // Kembalikan dalam format JSON
         return response()->json([
             'success' => true,
