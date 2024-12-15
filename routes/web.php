@@ -11,6 +11,7 @@ use App\Http\Controllers\ViewPengundianTabungan;
 use App\Http\Controllers\ViewPengundianDeposito;
 use App\Http\Controllers\ViewPengundianKredit;
 use App\Http\Controllers\ExportKuponController;
+use App\Http\Controllers\ExportPemenangController;
 
 /*
 |------------------
@@ -48,4 +49,9 @@ Route::post('/undian/reset-data', [ResetData::class, 'generate'])->name('reset.d
 Route::get('/export-kupon-deposito', [ExportKuponController::class, 'exportKuponDeposito'])->name('export-kupon-deposito');
 Route::get('/export-kupon-tabungan', [ExportKuponController::class, 'exportKuponTabungan'])->name('export-kupon-tabungan');
 Route::get('/export-kupon-kredit', [ExportKuponController::class, 'exportKuponKredit'])->name('export-kupon-kredit');
+
+Route::get('/export-Pemenang-deposito', [ExportPemenangController::class, 'exportPemenangDeposito'])->name('export-pemenang-deposito');
+Route::get('/export-Pemenang-tabungan', [ExportPemenangController::class, 'exportPemenangTabungan'])->name('export-pemenang-tabungan');
+Route::get('/export-Pemenang-kredit', [ExportPemenangController::class, 'exportPemenangKredit'])->name('export-pemenang-kredit');
+
 Route::get('/download-csv', [ExportKuponController::class, 'download'])->name('download-csv');

@@ -2,16 +2,26 @@
     use App\Models\PesertaKredit;
     use App\Models\PesertaTabungan;
     use App\Models\PesertaDeposito;
+
     use App\Models\KuponKredit;
     use App\Models\KuponTabungan;
     use App\Models\KuponDeposito;
 
+    use App\Models\PemenangKredit;
+    use App\Models\PemenangTabungan;
+    use App\Models\PemenangDeposito;
+
     $totalPesertaKredit = number_format(PesertaKredit::count());
     $totalPesertaTabungan = number_format(PesertaTabungan::count());
     $totalPesertaDeposito = number_format(PesertaDeposito::count());
+
     $totalKuponKredit = number_format(KuponKredit::count());
     $totalKuponTabungan = number_format(KuponTabungan::count());
     $totalKuponDeposito = number_format(KuponDeposito::count());
+
+    $totalPemenangKredit = number_format(PemenangKredit::count());
+    $totalPemenangTabungan = number_format(PemenangTabungan::count());
+    $totalPemenangDeposito = number_format(PemenangDeposito::count());
 @endphp
 
 <x-filament-panels::page>
@@ -29,10 +39,11 @@
     <table class="w-full table-auto border-collapse border border-gray-200">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="border border-gray-200 px-4 py-2 text-left font-bold text-gray-700">Keterangan Kupon</th>
-                    <th class="border border-gray-200 px-4 py-2 text-left font-bold text-gray-700">Jumlah Peserta</th>
-                    <th class="border border-gray-200 px-4 py-2 text-left font-bold text-gray-700">Jumlah Kupon</th>
-                    <th class="border border-gray-200 px-4 py-2 text-left font-bold text-gray-700">Action</th>
+                    <th class="border border-gray-200 px-4 py-2 text-left font-bold text-gray-700">Produk</th>
+                    <th class="border border-gray-200 px-4 py-2 text-left font-bold text-gray-700">Peserta</th>
+                    <th class="border border-gray-200 px-4 py-2 text-left font-bold text-gray-700">Kupon</th>
+                    <th class="border border-gray-200 px-4 py-2 text-left font-bold text-gray-700">Pemenang</th>
+                    <th class="border border-gray-200 px-4 py-2 text-left font-bold text-gray-700" colspan="2">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +52,7 @@
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">Kupon Kredit</td>
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalPesertaKredit ?? 0 }}</td>
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalKuponKredit ?? 0 }}</td>
+                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalPemenangKredit ?? 0 }}</td>
                     <td class="border border-gray-200 px-4 py-2">
                         <a href="{{ route('export-kupon-kredit') }}">
                             <button style="--c-400:var(--info-400);--c-500:var(--info-500);--c-600:var(--info-600);" 
@@ -51,6 +63,16 @@
                             </button>
                         </a>
                     </td>
+                    <td class="border border-gray-200 px-4 py-2">
+                        <a href="{{ route('export-pemenang-kredit') }}">
+                            <button style="--c-400:var(--info-400);--c-500:var(--info-500);--c-600:var(--info-600);" 
+                                class="fi-btn relative grid-flow-col items-center justify-center font-semibold outline-none transition duration-75 focus-visible:ring-2 rounded-lg fi-color-custom fi-btn-color-info fi-size-lg fi-btn-size-lg gap-1.5 px-3.5 py-2.5 text-sm inline-grid shadow-sm bg-custom-600 text-white hover:bg-custom-500 focus-visible:ring-custom-500/50 dark:bg-custom-500 dark:hover:bg-custom-400 dark:focus-visible:ring-custom-400/50" 
+                                type="button" 
+                                wire:loading.attr="disabled">
+                                Export Pemenang
+                            </button>
+                        </a>
+                    </td>
                 </tr>
 
                 {{-- Baris 2: Kupon Deposito --}}
@@ -58,6 +80,7 @@
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">Kupon Deposito</td>
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalPesertaDeposito ?? 0 }}</td>
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalKuponDeposito ?? 0 }}</td>
+                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalPemenangDeposito ?? 0 }}</td>
                     <td class="border border-gray-200 px-4 py-2">
                         <a href="{{ route('export-kupon-deposito') }}">
                             <button style="--c-400:var(--info-400);--c-500:var(--info-500);--c-600:var(--info-600);" 
@@ -68,6 +91,16 @@
                             </button>
                         </a>
                     </td>
+                    <td class="border border-gray-200 px-4 py-2">
+                        <a href="{{ route('export-pemenang-deposito') }}">
+                            <button style="--c-400:var(--info-400);--c-500:var(--info-500);--c-600:var(--info-600);" 
+                                class="fi-btn relative grid-flow-col items-center justify-center font-semibold outline-none transition duration-75 focus-visible:ring-2 rounded-lg fi-color-custom fi-btn-color-info fi-size-lg fi-btn-size-lg gap-1.5 px-3.5 py-2.5 text-sm inline-grid shadow-sm bg-custom-600 text-white hover:bg-custom-500 focus-visible:ring-custom-500/50 dark:bg-custom-500 dark:hover:bg-custom-400 dark:focus-visible:ring-custom-400/50" 
+                                type="button" 
+                                wire:loading.attr="disabled">
+                                Export Pemenang
+                            </button>
+                        </a>
+                    </td>
                 </tr>
 
                 {{-- Baris 3: Kupon Tabungan --}}
@@ -75,6 +108,7 @@
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">Kupon Tabungan</td>
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalPesertaTabungan ?? 0 }}</td>
                     <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalKuponTabungan ?? 0 }}</td>
+                    <td class="border border-gray-200 px-4 py-2 text-gray-700">{{ $totalPemenangTabungan ?? 0 }}</td>
                     <td class="border border-gray-200 px-4 py-2">
                         <a href="{{ route('export-kupon-tabungan') }}">
                             <button style="--c-400:var(--info-400);--c-500:var(--info-500);--c-600:var(--info-600);" 
@@ -82,6 +116,16 @@
                                 type="button" 
                                 wire:loading.attr="disabled">
                                 Export Kupon
+                            </button>
+                        </a>
+                    </td>
+                    <td class="border border-gray-200 px-4 py-2">
+                        <a href="{{ route('export-pemenang-tabungan') }}">
+                            <button style="--c-400:var(--info-400);--c-500:var(--info-500);--c-600:var(--info-600);" 
+                                class="fi-btn relative grid-flow-col items-center justify-center font-semibold outline-none transition duration-75 focus-visible:ring-2 rounded-lg fi-color-custom fi-btn-color-info fi-size-lg fi-btn-size-lg gap-1.5 px-3.5 py-2.5 text-sm inline-grid shadow-sm bg-custom-600 text-white hover:bg-custom-500 focus-visible:ring-custom-500/50 dark:bg-custom-500 dark:hover:bg-custom-400 dark:focus-visible:ring-custom-400/50" 
+                                type="button" 
+                                wire:loading.attr="disabled">
+                                Export Pemenang
                             </button>
                         </a>
                     </td>
