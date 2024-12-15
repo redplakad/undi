@@ -12,10 +12,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-
 class KuponKreditResource extends Resource
 {
     protected static ?string $model = KuponKredit::class;
@@ -113,16 +109,10 @@ class KuponKreditResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    ExportBulkAction::make()->exports([
-                        ExcelExport::make()->queue()
-                    ])
                 ]),
             ])
             ->headerActions([
                 //ExportAction::make()->exporter(KuponKreditExporter::class)
-                ExportAction::make()->exports([
-                    ExcelExport::make()->queue()->withChunkSize(100)
-                ])
             ]);
     }
 

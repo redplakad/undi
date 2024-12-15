@@ -12,10 +12,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-
 class KuponTabunganResource extends Resource
 {
     protected static ?string $model = KuponTabungan::class;
@@ -101,9 +97,6 @@ class KuponTabunganResource extends Resource
             ])
             ->headerActions([
                 //ExportAction::make()->exporter(KuponKreditExporter::class)
-                ExportAction::make()->exports([
-                    ExcelExport::make()->queue()->withChunkSize(100)
-                ])
             ]);
 
     }

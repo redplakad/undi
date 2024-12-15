@@ -102,8 +102,7 @@ class KuponDepositoResource extends Resource
                 ]),
             ])
             ->headerActions([
-                ExportAction::make()
-                    ->exporter(KuponDepositoExporter::class)
+                
             ]);
     }
 
