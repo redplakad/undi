@@ -91,6 +91,8 @@ class KuponKreditResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status_kredit')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('wilayah')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
