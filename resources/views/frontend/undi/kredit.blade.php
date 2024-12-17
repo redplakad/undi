@@ -115,7 +115,7 @@
                     <label for="id_wilayah" class="block text-gray-700 font-medium mb-2">Pilih Wilayah</label>
                     <select id="id_wilayah" name="id_hadiah" class="select select-bordered w-full max-w-x" disabled>
                         <option value="" disabled selected>-- Pilih wilayah --</option>
-                        <option value="1">Wilayah Khusus</option>
+                        <option value="1">Wilayah Pemasaran</option>
                         @foreach (DB::table('peserta_kredit')->distinct()->pluck('wilayah') as $wilayah)
                             <option value="{{ $wilayah }}">{{ $wilayah }}</option>
                         @endforeach
